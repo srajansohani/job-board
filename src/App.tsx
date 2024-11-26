@@ -1,18 +1,21 @@
 import React from "react";
-import { CssBaseline, Container, Typography } from "@mui/material";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Board from "./components/Board";
+import TaskDetails from "./components/TaskDetails";
+import theme from "./theme";
 
 const App: React.FC = () => {
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container>
-        <Typography variant="h4" textAlign="center" marginY={4}>
-          Task Board
-        </Typography>
-        <Board />
-      </Container>
-    </div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Board />} />
+          <Route path="/task/:id" element={<TaskDetails />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 };
 
