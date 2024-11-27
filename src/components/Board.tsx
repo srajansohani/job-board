@@ -133,7 +133,10 @@ const StatusColumn: React.FC<{
 };
 
 const Board: React.FC = () => {
-  const [statuses, setStatuses] = useState(["To Do", "In Progress", "Done"]);
+  const [statuses, setStatuses] = useState<string[]>(() => {
+    const storedStatuses = localStorage.getItem("statuses");
+    return storedStatuses ? JSON.parse(storedStatuses) : ["To Do", "In Progress", "Done"];
+  });
   const [tasks, setTasks] = useState<Task[]>(() => {
     const storedTasks = localStorage.getItem("tasks");
     return storedTasks ? JSON.parse(storedTasks) : [];
@@ -142,6 +145,10 @@ const Board: React.FC = () => {
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [statusToDelete, setStatusToDelete] = useState<string | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem("statuses", JSON.stringify(statuses));
+  }, [statuses]);
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
